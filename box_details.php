@@ -1100,6 +1100,299 @@ $activities = $recent_activity->fetchAll();
         .image-viewer-controls button:hover {
             background: rgba(255,255,255,0.4);
         }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 100%;
+                padding: 15px;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .cores-section {
+                order: 2;
+            }
+            
+            .map-section {
+                order: 1;
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .header a {
+                width: 100%;
+                text-align: center;
+                padding: 12px;
+            }
+            
+            .box-info {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .info-card {
+                padding: 15px;
+            }
+            
+            .cores-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .core-card {
+                padding: 15px;
+            }
+            
+            .core-number {
+                font-size: 18px;
+            }
+            
+            .core-status {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .box-info {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .info-card {
+                padding: 12px;
+            }
+            
+            .info-label {
+                font-size: 12px;
+            }
+            
+            .info-value {
+                font-size: 14px;
+            }
+            
+            .section-title {
+                font-size: 18px;
+            }
+            
+            .cores-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .core-card {
+                padding: 12px;
+            }
+            
+            .core-number {
+                font-size: 16px;
+            }
+            
+            .core-status {
+                font-size: 11px;
+            }
+            
+            .connection-form {
+                padding: 15px;
+            }
+            
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .form-group label {
+                font-size: 14px;
+            }
+            
+            .form-control {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            .map-section {
+                height: 300px;
+            }
+            
+            .image-viewer {
+                height: 250px;
+            }
+            
+            .connection-history {
+                font-size: 12px;
+            }
+            
+            .connection-history th,
+            .connection-history td {
+                padding: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 5px;
+            }
+            
+            .header {
+                padding: 10px 5px;
+            }
+            
+            .header h1 {
+                font-size: 16px;
+            }
+            
+            .header span {
+                font-size: 12px;
+            }
+            
+            .info-card {
+                padding: 10px;
+            }
+            
+            .info-label {
+                font-size: 11px;
+            }
+            
+            .info-value {
+                font-size: 13px;
+            }
+            
+            .section-title {
+                font-size: 16px;
+            }
+            
+            .core-card {
+                padding: 10px;
+            }
+            
+            .core-number {
+                font-size: 14px;
+            }
+            
+            .core-status {
+                font-size: 10px;
+            }
+            
+            .connection-form {
+                padding: 10px;
+            }
+            
+            .form-group {
+                margin-bottom: 12px;
+            }
+            
+            .form-group label {
+                font-size: 13px;
+            }
+            
+            .form-control {
+                padding: 8px;
+                font-size: 13px;
+            }
+            
+            .btn {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+            
+            .map-section {
+                height: 250px;
+            }
+            
+            .image-viewer {
+                height: 200px;
+            }
+            
+            .connection-history {
+                font-size: 11px;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .connection-history th,
+            .connection-history td {
+                padding: 4px;
+                min-width: 80px;
+            }
+            
+            .status-badge {
+                font-size: 9px;
+                padding: 2px 6px;
+            }
+            
+            .alert {
+                padding: 10px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .header h1 {
+                font-size: 14px;
+            }
+            
+            .section-title {
+                font-size: 15px;
+            }
+            
+            .core-number {
+                font-size: 12px;
+            }
+            
+            .core-status {
+                font-size: 9px;
+            }
+            
+            .form-control {
+                padding: 6px;
+                font-size: 12px;
+            }
+            
+            .btn {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            
+            .map-section {
+                height: 200px;
+            }
+            
+            .image-viewer {
+                height: 150px;
+            }
+        }
     </style>
 </head>
 <body>

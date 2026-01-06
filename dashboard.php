@@ -1049,6 +1049,276 @@ $totalSplittersCount = count($splitterByCore);
                 max-height: 200px;
             }
         }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 100%;
+                padding: 15px;
+            }
+            
+            .form-container {
+                max-width: 100%;
+                padding: 20px;
+            }
+            
+            .boxes-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding: 20px 15px;
+            }
+            
+            .header div {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+            
+            .header a {
+                width: 100%;
+                text-align: center;
+                padding: 12px;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .boxes-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 12px;
+            }
+            
+            .box-card {
+                padding: 15px;
+            }
+            
+            .box-title {
+                font-size: 16px;
+            }
+            
+            .box-info {
+                font-size: 12px;
+            }
+            
+            .cores-list {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .form-container {
+                padding: 12px;
+            }
+            
+            .form-title {
+                font-size: 18px;
+            }
+            
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .form-group label {
+                font-size: 14px;
+            }
+            
+            .form-control {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            .boxes-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .box-card {
+                padding: 12px;
+            }
+            
+            .box-title {
+                font-size: 15px;
+            }
+            
+            .box-info {
+                font-size: 11px;
+            }
+            
+            .cores-list {
+                font-size: 10px;
+            }
+            
+            .section-title {
+                font-size: 18px;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .search-box input {
+                font-size: 14px;
+                padding: 10px;
+            }
+            
+            .filter-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 5px;
+            }
+            
+            .header {
+                padding: 10px 5px;
+            }
+            
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .header span {
+                font-size: 14px;
+            }
+            
+            .form-container {
+                padding: 10px;
+            }
+            
+            .form-title {
+                font-size: 16px;
+            }
+            
+            .form-group {
+                margin-bottom: 12px;
+            }
+            
+            .form-group label {
+                font-size: 13px;
+            }
+            
+            .form-control {
+                padding: 8px;
+                font-size: 13px;
+            }
+            
+            .btn {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+            
+            .box-card {
+                padding: 10px;
+            }
+            
+            .box-title {
+                font-size: 14px;
+            }
+            
+            .box-info {
+                font-size: 10px;
+            }
+            
+            .cores-list {
+                font-size: 9px;
+            }
+            
+            .section-title {
+                font-size: 16px;
+            }
+            
+            .search-box input {
+                font-size: 13px;
+                padding: 8px;
+            }
+            
+            .filter-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            .alert {
+                padding: 10px;
+                font-size: 13px;
+            }
+            
+            .box-actions {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .box-actions .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .header h1 {
+                font-size: 16px;
+            }
+            
+            .form-title {
+                font-size: 15px;
+            }
+            
+            .box-title {
+                font-size: 13px;
+            }
+            
+            .section-title {
+                font-size: 15px;
+            }
+            
+            .form-control {
+                padding: 6px;
+                font-size: 12px;
+            }
+            
+            .btn {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>

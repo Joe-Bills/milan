@@ -165,6 +165,239 @@ try {
             background-color: #ffc107;
             color: #000;
         }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 100%;
+                padding: 15px;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .stats-card {
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .search-box {
+                max-width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .search-box input {
+                font-size: 14px;
+                padding: 10px;
+            }
+            
+            .search-box button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+            
+            .btn-group .btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .boxes-table {
+                font-size: 14px;
+            }
+            
+            .boxes-table th,
+            .boxes-table td {
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .search-box {
+                margin-bottom: 12px;
+            }
+            
+            .search-box input {
+                font-size: 13px;
+                padding: 8px;
+            }
+            
+            .search-box button {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .stats-card {
+                padding: 15px;
+                text-align: center;
+            }
+            
+            .stats-number {
+                font-size: 24px;
+            }
+            
+            .stats-label {
+                font-size: 12px;
+            }
+            
+            .boxes-table {
+                font-size: 12px;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .boxes-table th,
+            .boxes-table td {
+                padding: 6px;
+                min-width: 80px;
+            }
+            
+            .badge {
+                font-size: 10px;
+                padding: 2px 6px;
+            }
+            
+            .btn-sm {
+                padding: 5px 8px;
+                font-size: 11px;
+            }
+            
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 5px;
+            }
+            
+            .header {
+                padding: 10px 5px;
+            }
+            
+            .header h1 {
+                font-size: 18px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .search-box input {
+                width: 100%;
+                margin-bottom: 8px;
+            }
+            
+            .search-box button {
+                width: 100%;
+                padding: 10px;
+            }
+            
+            .stats-card {
+                padding: 12px;
+            }
+            
+            .stats-number {
+                font-size: 20px;
+            }
+            
+            .stats-label {
+                font-size: 11px;
+            }
+            
+            .boxes-table {
+                font-size: 11px;
+            }
+            
+            .boxes-table th,
+            .boxes-table td {
+                padding: 4px;
+                min-width: 60px;
+            }
+            
+            .badge {
+                font-size: 9px;
+                padding: 1px 4px;
+            }
+            
+            .btn-sm {
+                padding: 4px 6px;
+                font-size: 10px;
+            }
+            
+            .table-responsive {
+                margin: 0 -5px;
+                padding: 0 5px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .header h1 {
+                font-size: 16px;
+            }
+            
+            .stats-number {
+                font-size: 18px;
+            }
+            
+            .stats-label {
+                font-size: 10px;
+            }
+            
+            .boxes-table {
+                font-size: 10px;
+            }
+            
+            .boxes-table th,
+            .boxes-table td {
+                padding: 3px;
+                min-width: 50px;
+            }
+        }
     </style>
 </head>
 <body>
