@@ -44,7 +44,7 @@ define('SESSION_REGEN_TIME', 180); // Regenerate session every 3 minutes
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > SESSION_TIMEOUT)) {
     session_unset();
     session_destroy();
-    header('Location: login.php?session_expired=1');
+    header('Location: index.php?session_expired=1');
     exit();
 }
 
@@ -60,7 +60,7 @@ if (isset($_SESSION['last_activity']) &&
 if (isset($_SESSION['ip_address']) && $_SESSION['ip_address'] !== ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0')) {
     session_unset();
     session_destroy();
-    header('Location: login.php?security=1');
+    header('Location: index.php?security=1');
     exit();
 }
 
@@ -89,18 +89,18 @@ function validateCSRFToken($token) {
     return true;
 }
 
-// Rate limiting for login attempts
+// Rate limiting for index attempts
 function checkRateLimit($username, $pdo) {
     $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
     $window = 15 * 60; // 15 minutes
     $max_attempts = 5;
     
     try {
-        // Check if login_attempts table exists, if not, create it
-        $tableCheck = $pdo->query("SHOW TABLES LIKE 'login_attempts'")->fetch();
+        // Check if index_attempts table exists, if not, create it
+        $tableCheck = $pdo->query("SHOW TABLES LIKE 'index_attempts'")->fetch();
         if (!$tableCheck) {
             // Create the table if it doesn't exist
-            $createTableSQL = "CREATE TABLE IF NOT EXISTS login_attempts (
+            $createTableSQL = "CREATE TABLE IF NOT EXISTS index_attempts (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 username VARCHAR(50) NOT NULL,
                 ip_address VARCHAR(45) NOT NULL,
@@ -114,11 +114,11 @@ function checkRateLimit($username, $pdo) {
         }
         
         // Clean old attempts
-        $stmt = $pdo->prepare("DELETE FROM login_attempts WHERE attempt_time < ?");
+        $stmt = $pdo->prepare("DELETE FROM index_attempts WHERE attempt_time < ?");
         $stmt->execute([time() - $window]);
         
         // Count recent attempts
-        $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM login_attempts WHERE ip_address = ? AND attempt_time > ?");
+        $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM index_attempts WHERE ip_address = ? AND attempt_time > ?");
         $stmt->execute([$ip, time() - $window]);
         $result = $stmt->fetch();
         
@@ -128,22 +128,22 @@ function checkRateLimit($username, $pdo) {
         
         return true;
     } catch (PDOException $e) {
-        // If table creation fails, allow login (fail open for usability)
+        // If table creation fails, allow index (fail open for usability)
         error_log("Rate limit table error: " . $e->getMessage());
         return true;
     }
 }
 
-function recordLoginAttempt($username, $success, $pdo) {
+function recordindexAttempt($username, $success, $pdo) {
     try {
         $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
         $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
         
-        $stmt = $pdo->prepare("INSERT INTO login_attempts (username, ip_address, user_agent, success, attempt_time) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO index_attempts (username, ip_address, user_agent, success, attempt_time) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([$username, $ip, substr($user_agent, 0, 255), $success ? 1 : 0, time()]);
     } catch (PDOException $e) {
-        // Silently log error but don't interrupt login
-        error_log("Failed to record login attempt: " . $e->getMessage());
+        // Silently log error but don't interrupt index
+        error_log("Failed to record index attempt: " . $e->getMessage());
     }
 }
 
@@ -167,7 +167,7 @@ function sanitizeInput($input, $type = 'string') {
     }
 }
 
-// Handle login with enhanced security
+// Handle index with enhanced security
 $error = '';
 $csrf_token = generateCSRFToken();
 
@@ -182,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($username) || empty($password)) {
             $error = "Please enter both username and password";
         } elseif (!checkRateLimit($username, $pdo)) {
-            $error = "Too many login attempts. Please try again in 15 minutes.";
+            $error = "Too many index attempts. Please try again in 15 minutes.";
         } else {
             // Add delay to prevent timing attacks
             usleep(rand(100000, 300000)); // 0.1-0.3 second delay
@@ -194,7 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($user) {
                 if (isset($user['is_active']) && $user['is_active'] == 0) {
                     $error = "Your account has been blocked.";
-                    recordLoginAttempt($username, false, $pdo);
+                    recordindexAttempt($username, false, $pdo);
                 }
                 elseif (password_verify($password, $user['password'])) {
                     // Check if password needs rehashing
@@ -210,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['is_admin'] = $user['is_admin'];
                     $_SESSION['last_activity'] = time();
                     $_SESSION['ip_address'] = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
-                    $_SESSION['login_time'] = time();
+                    $_SESSION['index_time'] = time();
                     
                     // Regenerate session ID
                     session_regenerate_id(true);
@@ -219,20 +219,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     unset($_SESSION['csrf_token']);
                     
                     // Record successful attempt
-                    recordLoginAttempt($username, true, $pdo);
+                    recordindexAttempt($username, true, $pdo);
                     
                     $redirect = $user['is_admin'] ? 'admin.php' : 'dashboard.php';
                     header("Location: $redirect");
                     exit();
                 } else {
                     $error = "Invalid username or password";
-                    recordLoginAttempt($username, false, $pdo);
+                    recordindexAttempt($username, false, $pdo);
                 }
             } else {
                 // User doesn't exist - still verify password to prevent user enumeration
                 password_verify($password, '$2y$10$' . str_repeat('0', 53));
                 $error = "Invalid username or password";
-                recordLoginAttempt($username, false, $pdo);
+                recordindexAttempt($username, false, $pdo);
             }
         }
     }
@@ -246,7 +246,7 @@ $csrf_token = generateCSRFToken();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - ISP Manager</title>
+    <title>index - ISP Manager</title>
     <style>
         * { 
             margin: 0; 
@@ -264,7 +264,7 @@ $csrf_token = generateCSRFToken();
             padding: 20px;
         }
         
-        .login-card {
+        .index-card {
             max-width: 420px; 
             width: 100%;
             background: white; 
@@ -275,7 +275,7 @@ $csrf_token = generateCSRFToken();
             position: relative;
         }
         
-        .login-card:hover {
+        .index-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
         }
@@ -351,7 +351,7 @@ $csrf_token = generateCSRFToken();
             background: rgba(0, 102, 204, 0.05);
         }
         
-        .login-btn { 
+        .index-btn { 
             width: 100%; 
             padding: 16px; 
             background: #0066cc; 
@@ -366,15 +366,15 @@ $csrf_token = generateCSRFToken();
             position: relative;
         }
         
-        .login-btn:hover { 
+        .index-btn:hover { 
             background: #0055aa;
         }
         
-        .login-btn:active {
+        .index-btn:active {
             transform: translateY(1px);
         }
         
-        .login-btn:disabled {
+        .index-btn:disabled {
             background: #cccccc;
             cursor: not-allowed;
         }
@@ -433,7 +433,7 @@ $csrf_token = generateCSRFToken();
         }
         
         @media (max-width: 480px) {
-            .login-card {
+            .index-card {
                 padding: 30px 24px;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
                 border: 1px solid #eee;
@@ -448,7 +448,7 @@ $csrf_token = generateCSRFToken();
                 font-size: 24px;
             }
             
-            .login-card:hover {
+            .index-card:hover {
                 transform: none;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             }
@@ -459,7 +459,7 @@ $csrf_token = generateCSRFToken();
             font-size: 18px;
         }
         
-        .login-btn.loading {
+        .index-btn.loading {
             opacity: 0.8;
             pointer-events: none;
         }
@@ -490,15 +490,15 @@ $csrf_token = generateCSRFToken();
     </style>
 </head>
 <body>
-    <div class="login-card">
+    <div class="index-card">
         <div class="card-header">
             <h2>ISP Manager</h2>
-            <p>Login to your account</p>
+            <p>index to your account</p>
         </div>
         
         <?php if (isset($_GET['registered'])): ?>
             <div class="success">
-                Registration successful! Please login with your credentials.
+                Registration successful! Please index with your credentials.
             </div>
         <?php endif; ?>
         
@@ -510,13 +510,13 @@ $csrf_token = generateCSRFToken();
         
         <?php if (isset($_GET['session_expired'])): ?>
             <div class="info">
-                Your session has expired. Please login again.
+                Your session has expired. Please index again.
             </div>
         <?php endif; ?>
         
         <?php if (isset($_GET['security'])): ?>
             <div class="security-warning">
-                Security anomaly detected. Please login again.
+                Security anomaly detected. Please index again.
             </div>
         <?php endif; ?>
         
@@ -524,7 +524,7 @@ $csrf_token = generateCSRFToken();
             <div class="error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
         
-        <form method="POST" novalidate id="loginForm" autocomplete="off">
+        <form method="POST" novalidate id="indexForm" autocomplete="off">
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
             
             <div class="form-group">
@@ -558,12 +558,12 @@ $csrf_token = generateCSRFToken();
                 </div>
             </div>
             
-            <button type="submit" class="login-btn" id="loginButton">Sign In</button>
+            <button type="submit" class="index-btn" id="indexButton">Sign In</button>
         </form>
         
         <div class="card-footer">
             ISP Infrastructure Management System © <?php echo date('Y'); ?><br>
-            <small>Secure login system v2.0</small>
+            <small>Secure index system v2.0</small>
         </div>
     </div>
 
@@ -573,7 +573,7 @@ $csrf_token = generateCSRFToken();
         
         // Disable browser autofill for sensitive fields
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('loginForm');
+            const form = document.getElementById('indexForm');
             if (form) {
                 form.setAttribute('autocomplete', 'off');
             }
@@ -611,10 +611,10 @@ $csrf_token = generateCSRFToken();
         document.getElementById('username')?.focus();
         
         // Form validation with enhanced security
-        document.getElementById('loginForm')?.addEventListener('submit', function(e) {
+        document.getElementById('indexForm')?.addEventListener('submit', function(e) {
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
-            const loginBtn = document.getElementById('loginButton');
+            const indexBtn = document.getElementById('indexButton');
             const csrfToken = document.querySelector('input[name="csrf_token"]')?.value;
             
             if (!csrfToken) {
@@ -644,22 +644,22 @@ $csrf_token = generateCSRFToken();
             }
             
             // Add loading state and disable multiple submissions
-            if (loginBtn) {
-                loginBtn.classList.add('loading');
-                loginBtn.innerHTML = 'Signing In...';
-                loginBtn.disabled = true;
-                loginBtn.style.cursor = 'wait';
+            if (indexBtn) {
+                indexBtn.classList.add('loading');
+                indexBtn.innerHTML = 'Signing In...';
+                indexBtn.disabled = true;
+                indexBtn.style.cursor = 'wait';
                 
                 // Prevent double submission
                 this.submitted = true;
                 
                 // Add timeout to re-enable button
                 setTimeout(() => {
-                    if (loginBtn) {
-                        loginBtn.classList.remove('loading');
-                        loginBtn.innerHTML = 'Sign In';
-                        loginBtn.disabled = false;
-                        loginBtn.style.cursor = 'pointer';
+                    if (indexBtn) {
+                        indexBtn.classList.remove('loading');
+                        indexBtn.innerHTML = 'Sign In';
+                        indexBtn.disabled = false;
+                        indexBtn.style.cursor = 'pointer';
                         this.submitted = false;
                     }
                 }, 10000);
@@ -674,7 +674,7 @@ $csrf_token = generateCSRFToken();
         // Enter key submits form
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && document.activeElement.id === 'password') {
-                const form = document.getElementById('loginForm');
+                const form = document.getElementById('indexForm');
                 if (form && !form.submitted) {
                     form.submit();
                 }

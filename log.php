@@ -34,7 +34,7 @@ define('SESSION_TIMEOUT', 180);
 
 // Check if user is logged in and session is valid
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['last_activity'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -42,7 +42,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['last_activity'])) {
 if (time() - $_SESSION['last_activity'] > SESSION_TIMEOUT) {
     session_unset();
     session_destroy();
-    header('Location: login.php?session_expired=1');
+    header('Location: index.php?session_expired=1');
     exit();
 }
 
@@ -53,7 +53,7 @@ $_SESSION['last_activity'] = time();
 if (isset($_SESSION['ip_address']) && $_SESSION['ip_address'] !== ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0')) {
     session_unset();
     session_destroy();
-    header('Location: login.php?security=1');
+    header('Location: index.php?security=1');
     exit();
 }
 
@@ -106,8 +106,8 @@ function createLogTables($pdo) {
             INDEX idx_action_type (action_type)
         )");
         
-        // Create login_attempts table if it doesn't exist
-        $pdo->exec("CREATE TABLE IF NOT EXISTS login_attempts (
+        // Create index_attempts table if it doesn't exist
+        $pdo->exec("CREATE TABLE IF NOT EXISTS index_attempts (
             id INT PRIMARY KEY AUTO_INCREMENT,
             username VARCHAR(50) NOT NULL,
             ip_address VARCHAR(45) NOT NULL,
@@ -163,9 +163,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['clear_logs'])) {
                     $pdo->prepare("DELETE FROM admin_actions WHERE action_time < ?")->execute([$timestamp]);
                     $message = "Admin actions older than $days days cleared successfully!";
                     break;
-                case 'login':
-                    $pdo->prepare("DELETE FROM login_attempts WHERE attempt_time < ?")->execute([$timestamp]);
-                    $message = "Login attempts older than $days days cleared successfully!";
+                case 'index':
+                    $pdo->prepare("DELETE FROM index_attempts WHERE attempt_time < ?")->execute([$timestamp]);
+                    $message = "index attempts older than $days days cleared successfully!";
                     break;
                 case 'security':
                     $pdo->prepare("DELETE FROM security_logs WHERE created_at < FROM_UNIXTIME(?)")->execute([$timestamp]);
@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['clear_logs'])) {
                 case 'all':
                     $pdo->prepare("DELETE FROM system_logs WHERE created_at < FROM_UNIXTIME(?)")->execute([$timestamp]);
                     $pdo->prepare("DELETE FROM admin_actions WHERE action_time < ?")->execute([$timestamp]);
-                    $pdo->prepare("DELETE FROM login_attempts WHERE attempt_time < ?")->execute([$timestamp]);
+                    $pdo->prepare("DELETE FROM index_attempts WHERE attempt_time < ?")->execute([$timestamp]);
                     $pdo->prepare("DELETE FROM security_logs WHERE created_at < FROM_UNIXTIME(?)")->execute([$timestamp]);
                     $message = "All logs older than $days days cleared successfully!";
                     break;
@@ -224,9 +224,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['export_logs'])) {
                     $logs = $pdo->query("SELECT * FROM admin_actions ORDER BY action_time DESC LIMIT 1000")->fetchAll(PDO::FETCH_ASSOC);
                     $filename = "admin_actions_" . date('Y-m-d') . ".$format";
                     break;
-                case 'login':
-                    $logs = $pdo->query("SELECT * FROM login_attempts ORDER BY attempt_time DESC LIMIT 1000")->fetchAll(PDO::FETCH_ASSOC);
-                    $filename = "login_attempts_" . date('Y-m-d') . ".$format";
+                case 'index':
+                    $logs = $pdo->query("SELECT * FROM index_attempts ORDER BY attempt_time DESC LIMIT 1000")->fetchAll(PDO::FETCH_ASSOC);
+                    $filename = "index_attempts_" . date('Y-m-d') . ".$format";
                     break;
                 case 'security':
                     $logs = $pdo->query("SELECT * FROM security_logs ORDER BY created_at DESC LIMIT 1000")->fetchAll(PDO::FETCH_ASSOC);
@@ -292,10 +292,10 @@ function getLogStats($pdo) {
         $stats['admin_total'] = $pdo->query("SELECT COUNT(*) as count FROM admin_actions")->fetch()['count'];
         $stats['admin_today'] = $pdo->query("SELECT COUNT(*) as count FROM admin_actions WHERE DATE(FROM_UNIXTIME(action_time)) = CURDATE()")->fetch()['count'];
         
-        // Login attempts stats
-        $stats['login_total'] = $pdo->query("SELECT COUNT(*) as count FROM login_attempts")->fetch()['count'];
-        $stats['login_failed'] = $pdo->query("SELECT COUNT(*) as count FROM login_attempts WHERE success = 0")->fetch()['count'];
-        $stats['login_today'] = $pdo->query("SELECT COUNT(*) as count FROM login_attempts WHERE DATE(FROM_UNIXTIME(attempt_time)) = CURDATE()")->fetch()['count'];
+        // index attempts stats
+        $stats['index_total'] = $pdo->query("SELECT COUNT(*) as count FROM index_attempts")->fetch()['count'];
+        $stats['index_failed'] = $pdo->query("SELECT COUNT(*) as count FROM index_attempts WHERE success = 0")->fetch()['count'];
+        $stats['index_today'] = $pdo->query("SELECT COUNT(*) as count FROM index_attempts WHERE DATE(FROM_UNIXTIME(attempt_time)) = CURDATE()")->fetch()['count'];
         
         // Security logs stats
         $stats['security_total'] = $pdo->query("SELECT COUNT(*) as count FROM security_logs")->fetch()['count'];
@@ -329,7 +329,7 @@ function buildFilterQuery($type, $filters) {
     if (!empty($filters['date'])) {
         if ($type === 'admin') {
             $where[] = "DATE(FROM_UNIXTIME(action_time)) = ?";
-        } elseif ($type === 'login') {
+        } elseif ($type === 'index') {
             $where[] = "DATE(FROM_UNIXTIME(attempt_time)) = ?";
         } else {
             $where[] = "DATE(created_at) = ?";
@@ -348,7 +348,7 @@ function buildFilterQuery($type, $filters) {
             $params[] = (int) $filters['user'];
             $params[] = "%" . $filters['user'] . "%";
             $params[] = (int) $filters['user'];
-        } elseif ($type === 'login') {
+        } elseif ($type === 'index') {
             $where[] = "username LIKE ?";
             $params[] = "%" . $filters['user'] . "%";
         }
@@ -400,9 +400,9 @@ function getFilteredLogs($pdo, $type, $filters, $limit, $offset) {
                 $total = $pdo->query("SELECT FOUND_ROWS()")->fetch()[0];
                 break;
                 
-            case 'login':
+            case 'index':
                 $filter = buildFilterQuery($type, $filters);
-                $query = "SELECT SQL_CALC_FOUND_ROWS * FROM login_attempts {$filter['where']} ORDER BY attempt_time DESC LIMIT ? OFFSET ?";
+                $query = "SELECT SQL_CALC_FOUND_ROWS * FROM index_attempts {$filter['where']} ORDER BY attempt_time DESC LIMIT ? OFFSET ?";
                 $params = array_merge($filter['params'], [$limit, $offset]);
                 
                 $stmt = $pdo->prepare($query);
@@ -458,20 +458,20 @@ function getFilteredLogs($pdo, $type, $filters, $limit, $offset) {
                 $admin_stmt->execute($admin_params);
                 $admin_logs = $admin_stmt->fetchAll(PDO::FETCH_ASSOC);
                 
-                // Login attempts
-                $login_query = "SELECT *, 'login' as log_type, attempt_time as timestamp FROM login_attempts";
+                // index attempts
+                $index_query = "SELECT *, 'index' as log_type, attempt_time as timestamp FROM index_attempts";
                 if (!empty($filters['date']) || !empty($filters['user']) || !empty($filters['ip'])) {
-                    $login_filter = buildFilterQuery('login', $filters);
-                    $login_query .= " {$login_filter['where']}";
-                    $login_params = $login_filter['params'];
+                    $index_filter = buildFilterQuery('index', $filters);
+                    $index_query .= " {$index_filter['where']}";
+                    $index_params = $index_filter['params'];
                 } else {
-                    $login_params = [];
+                    $index_params = [];
                 }
-                $login_query .= " ORDER BY attempt_time DESC LIMIT 20";
+                $index_query .= " ORDER BY attempt_time DESC LIMIT 20";
                 
-                $login_stmt = $pdo->prepare($login_query);
-                $login_stmt->execute($login_params);
-                $login_logs = $login_stmt->fetchAll(PDO::FETCH_ASSOC);
+                $index_stmt = $pdo->prepare($index_query);
+                $index_stmt->execute($index_params);
+                $index_logs = $index_stmt->fetchAll(PDO::FETCH_ASSOC);
                 
                 // Security logs
                 $security_query = "SELECT *, 'security' as log_type, created_at as timestamp FROM security_logs";
@@ -489,7 +489,7 @@ function getFilteredLogs($pdo, $type, $filters, $limit, $offset) {
                 $security_logs = $security_stmt->fetchAll(PDO::FETCH_ASSOC);
                 
                 // Combine all logs
-                $mixed_logs = array_merge($system_logs, $admin_logs, $login_logs, $security_logs);
+                $mixed_logs = array_merge($system_logs, $admin_logs, $index_logs, $security_logs);
                 
                 // Sort by timestamp
                 usort($mixed_logs, function($a, $b) {
@@ -549,7 +549,7 @@ $unique_severities = getUniqueValues($pdo, 'system_logs', 'severity');
 $unique_users = array_merge(
     getUniqueValues($pdo, 'admin_actions', 'admin_username'),
     getUniqueValues($pdo, 'admin_actions', 'target_username'),
-    getUniqueValues($pdo, 'login_attempts', 'username')
+    getUniqueValues($pdo, 'index_attempts', 'username')
 );
 $unique_users = array_unique($unique_users);
 sort($unique_users);
@@ -835,7 +835,7 @@ sort($unique_users);
         
         .stat-system { border-color: #3498db; }
         .stat-admin { border-color: #9b59b6; }
-        .stat-login { border-color: #e74c3c; }
+        .stat-index { border-color: #e74c3c; }
         .stat-security { border-color: #f39c12; }
         .stat-error { border-color: #e74c3c; }
         .stat-critical { border-color: #c0392b; }
@@ -1431,10 +1431,10 @@ sort($unique_users);
                 <span class="stat-label">Admin Actions</span>
                 <small><?php echo $log_stats['admin_today'] ?? 0; ?> performed today</small>
             </div>
-            <div class="stat-card stat-login">
-                <span class="stat-number"><?php echo $log_stats['login_total'] ?? 0; ?></span>
-                <span class="stat-label">Login Attempts</span>
-                <small><?php echo $log_stats['login_today'] ?? 0; ?> today • <?php echo $log_stats['login_failed'] ?? 0; ?> failed</small>
+            <div class="stat-card stat-index">
+                <span class="stat-number"><?php echo $log_stats['index_total'] ?? 0; ?></span>
+                <span class="stat-label">index Attempts</span>
+                <small><?php echo $log_stats['index_today'] ?? 0; ?> today • <?php echo $log_stats['index_failed'] ?? 0; ?> failed</small>
             </div>
             <div class="stat-card stat-security">
                 <span class="stat-number"><?php echo $log_stats['security_total'] ?? 0; ?></span>
@@ -1463,7 +1463,7 @@ sort($unique_users);
                         <option value="all" <?php echo $filter_type === 'all' ? 'selected' : ''; ?>>All Logs</option>
                         <option value="system" <?php echo $filter_type === 'system' ? 'selected' : ''; ?>>System Logs</option>
                         <option value="admin" <?php echo $filter_type === 'admin' ? 'selected' : ''; ?>>Admin Actions</option>
-                        <option value="login" <?php echo $filter_type === 'login' ? 'selected' : ''; ?>>Login Attempts</option>
+                        <option value="index" <?php echo $filter_type === 'index' ? 'selected' : ''; ?>>index Attempts</option>
                         <option value="security" <?php echo $filter_type === 'security' ? 'selected' : ''; ?>>Security Logs</option>
                     </select>
                 </div>
@@ -1576,11 +1576,11 @@ sort($unique_users);
                                 $action = $log['action_type'] ?? '';
                                 $status = $log['target_username'] ? 'Target: ' . $log['target_username'] : '';
                                 $details = $log['details'] ?? '';
-                            } elseif ($log_type === 'login' || ($filter_type === 'login' && !isset($log['log_type']))) {
+                            } elseif ($log_type === 'index' || ($filter_type === 'index' && !isset($log['log_type']))) {
                                 $timestamp = date('Y-m-d H:i:s', $log['attempt_time']);
                                 $severity = $log['success'] ? 'info' : 'warning';
                                 $user_info = $log['username'] . '<br><small>' . $log['ip_address'] . '</small>';
-                                $action = 'Login Attempt';
+                                $action = 'index Attempt';
                                 $status = $log['success'] ? '<span class="badge badge-success">✅ Success</span>' : '<span class="badge badge-danger">❌ Failed</span>';
                                 $details = 'User Agent: ' . ($log['user_agent'] ?? 'N/A');
                             } elseif ($log_type === 'security' || ($filter_type === 'security' && !isset($log['log_type']))) {
@@ -1676,7 +1676,7 @@ sort($unique_users);
                             <option value="all">All Logs</option>
                             <option value="system">System Logs Only</option>
                             <option value="admin">Admin Actions Only</option>
-                            <option value="login">Login Attempts Only</option>
+                            <option value="index">index Attempts Only</option>
                             <option value="security">Security Logs Only</option>
                         </select>
                     </div>
@@ -1710,7 +1710,7 @@ sort($unique_users);
                         <select name="export_type" required>
                             <option value="system">System Logs</option>
                             <option value="admin">Admin Actions</option>
-                            <option value="login">Login Attempts</option>
+                            <option value="index">index Attempts</option>
                             <option value="security">Security Logs</option>
                         </select>
                     </div>
@@ -1780,7 +1780,7 @@ sort($unique_users);
             let timestamp = '';
             if (logType === 'admin' && log.action_time) {
                 timestamp = new Date(log.action_time * 1000).toLocaleString();
-            } else if (logType === 'login' && log.attempt_time) {
+            } else if (logType === 'index' && log.attempt_time) {
                 timestamp = new Date(log.attempt_time * 1000).toLocaleString();
             } else if (log.created_at) {
                 timestamp = new Date(log.created_at).toLocaleString();

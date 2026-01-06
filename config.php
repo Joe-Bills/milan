@@ -1,7 +1,7 @@
 <?php
 // Database configuration
 $host = 'localhost';
-$dbname = 'isp_infrastructure';
+$dbname = 'milan_db';
 $username = 'root';
 $password = '';
 

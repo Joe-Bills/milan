@@ -16,9 +16,9 @@ if (ini_get("session.use_cookies")) {
 // Destroy session
 session_destroy();
 
-// If not silent logout, redirect to login
+// If not silent logout, redirect to index
 if (!isset($_GET['silent'])) {
-    header('Location: login.php?logout=1');
+    header('Location: index.php?logout=1');
     exit();
 }
 ?>

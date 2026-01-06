@@ -15,7 +15,7 @@
         input[type="text"], input[type="email"], input[type="password"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
         button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
         button:hover { background: #0056b3; }
-        .login-link { text-align: center; margin-top: 15px; }
+        .index-link { text-align: center; margin-top: 15px; }
         .error { color: red; margin-top: 10px; text-align: center; }
     </style>
 </head>
@@ -31,7 +31,7 @@
             try {
                 $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
                 $stmt->execute([$username, $email, $password]);
-                header("Location: login.php");
+                header("Location: index.php");
                 exit();
             } catch(PDOException $e) {
                 echo "<div class='error'>Registration failed: " . $e->getMessage() . "</div>";
@@ -53,8 +53,8 @@
             </div>
             <button type="submit">Register</button>
         </form>
-        <div class="login-link">
-            <a href="login.php">Already have an account? Login</a>
+        <div class="index-link">
+            <a href="index.php">Already have an account? index</a>
         </div>
     </div>
 </body>

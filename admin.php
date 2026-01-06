@@ -33,7 +33,7 @@ define('SESSION_TIMEOUT', 180);
 
 // Check if user is logged in and session is valid
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['last_activity'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -41,7 +41,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['last_activity'])) {
 if (time() - $_SESSION['last_activity'] > SESSION_TIMEOUT) {
     session_unset();
     session_destroy();
-    header('Location: login.php?session_expired=1');
+    header('Location: index.php?session_expired=1');
     exit();
 }
 
@@ -52,7 +52,7 @@ $_SESSION['last_activity'] = time();
 if (isset($_SESSION['ip_address']) && $_SESSION['ip_address'] !== ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0')) {
     session_unset();
     session_destroy();
-    header('Location: login.php?security=1');
+    header('Location: index.php?security=1');
     exit();
 }
 

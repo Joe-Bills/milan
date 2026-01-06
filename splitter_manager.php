@@ -44,12 +44,12 @@ define('SESSION_REGEN_TIME', 1200); // Regenerate session every 3 minutes
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > SESSION_TIMEOUT)) {
     session_unset();
     session_destroy();
-    header('Location: login.php?session_expired=1');
+    header('Location: index.php?session_expired=1');
     exit();
 }
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit();
 }
 
