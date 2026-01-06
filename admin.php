@@ -903,7 +903,7 @@ function logAdminAction($action, $details) {
             color: #666;
         }
 
-        /* Responsive Design */
+        /* Enhanced Responsive Design */
         @media (max-width: 1200px) {
             .container {
                 max-width: 100%;
@@ -922,18 +922,25 @@ function logAdminAction($action, $details) {
                 gap: 15px;
                 text-align: center;
                 padding: 20px 15px;
+                position: relative;
+                z-index: 10;
             }
             
             .header div {
                 flex-direction: column;
                 gap: 10px;
                 width: 100%;
+                align-items: center;
             }
             
             .header a {
                 width: 100%;
                 text-align: center;
                 padding: 12px;
+                margin: 5px 0;
+                box-sizing: border-box;
+                display: block;
+                clear: both;
             }
             
             .stats-grid {
@@ -943,53 +950,80 @@ function logAdminAction($action, $details) {
             
             .users-table {
                 font-size: 14px;
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
             
             .users-table th,
             .users-table td {
                 padding: 8px;
+                min-width: 120px;
             }
         }
 
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
+                max-width: 100%;
+                overflow-x: hidden;
             }
             
             .header {
                 padding: 15px 10px;
+                position: relative;
             }
             
             .header h1 {
                 font-size: 20px;
+                margin-bottom: 10px;
+                word-wrap: break-word;
+            }
+            
+            .header span {
+                display: block;
+                margin-bottom: 10px;
+                font-size: 14px;
             }
             
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
+                margin: 20px 0;
             }
             
             .stat-card {
                 padding: 15px;
+                text-align: center;
+                box-sizing: border-box;
+                margin-bottom: 10px;
             }
             
             .stat-number {
                 font-size: 24px;
+                display: block;
+                margin-bottom: 5px;
             }
             
             .stat-label {
                 font-size: 12px;
+                display: block;
             }
             
             .nav-tabs {
                 flex-direction: column;
                 gap: 5px;
+                width: 100%;
+                margin: 20px 0;
             }
             
             .nav-tab {
                 width: 100%;
                 text-align: center;
-                padding: 12px;
+                padding: 15px;
+                margin: 5px 0;
+                box-sizing: border-box;
+                display: block;
             }
             
             .users-table {
@@ -997,12 +1031,36 @@ function logAdminAction($action, $details) {
                 display: block;
                 overflow-x: auto;
                 white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                margin: 20px 0;
             }
             
             .users-table th,
             .users-table td {
                 padding: 6px;
-                min-width: 80px;
+                min-width: 100px;
+                border: 1px solid #dee2e6;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 5px;
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .action-buttons form {
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .btn-sm {
+                padding: 8px 12px;
+                font-size: 12px;
+                width: 100%;
+                box-sizing: border-box;
+                display: block;
+                margin: 3px 0;
             }
             
             .modal-content {
@@ -1010,145 +1068,237 @@ function logAdminAction($action, $details) {
                 margin: 2% auto;
                 max-height: 95vh;
                 overflow-y: auto;
+                position: relative;
+                z-index: 1000;
             }
             
             .form-group {
-                margin-bottom: 15px;
+                margin-bottom: 20px;
+                width: 100%;
+                box-sizing: border-box;
             }
             
             .form-group label {
                 font-size: 14px;
+                display: block;
+                margin-bottom: 8px;
             }
             
             .form-control {
-                padding: 10px;
+                padding: 12px;
                 font-size: 14px;
+                width: 100%;
+                box-sizing: border-box;
+                border: 1px solid #ddd;
+                border-radius: 4px;
             }
             
             .btn {
-                padding: 10px 15px;
+                padding: 12px 20px;
                 font-size: 14px;
+                width: 100%;
+                box-sizing: border-box;
+                margin: 10px 0;
+                display: block;
+                clear: both;
             }
             
             .security-warning {
                 flex-direction: column;
                 text-align: center;
-                padding: 10px;
+                padding: 15px;
                 font-size: 13px;
+                margin: 20px 0;
+                line-height: 1.4;
+            }
+            
+            .alert {
+                padding: 15px;
+                font-size: 13px;
+                margin: 15px 0;
+                border-radius: 6px;
+                line-height: 1.4;
             }
         }
 
         @media (max-width: 480px) {
             .container {
                 padding: 5px;
+                max-width: 100%;
+                overflow-x: hidden;
             }
             
             .header {
-                padding: 10px 5px;
+                padding: 15px 5px;
+                position: relative;
             }
             
             .header h1 {
                 font-size: 18px;
+                line-height: 1.2;
+                margin-bottom: 15px;
             }
             
             .header span {
-                font-size: 14px;
+                font-size: 13px;
+                margin-bottom: 15px;
+                display: block;
+            }
+            
+            .header a {
+                padding: 15px;
+                font-size: 13px;
+                margin: 8px 0;
+                border-radius: 6px;
             }
             
             .stats-grid {
                 grid-template-columns: 1fr;
                 gap: 8px;
+                margin: 20px 0;
             }
             
             .stat-card {
-                padding: 12px;
+                padding: 20px;
                 text-align: center;
+                margin-bottom: 15px;
             }
             
             .stat-number {
                 font-size: 20px;
+                margin-bottom: 8px;
             }
             
             .stat-label {
                 font-size: 11px;
+                line-height: 1.3;
             }
             
             .section-title {
                 font-size: 18px;
+                margin: 30px 0 20px 0;
+                text-align: center;
             }
             
             .users-table {
                 font-size: 11px;
+                margin: 20px 0;
+                border-radius: 8px;
+                overflow: hidden;
             }
             
             .users-table th,
             .users-table td {
-                padding: 4px;
-                min-width: 60px;
+                padding: 8px;
+                min-width: 80px;
+                text-align: left;
+                border-bottom: 1px solid #dee2e6;
+            }
+            
+            .users-table th {
+                background: #f8f9fa;
+                font-weight: bold;
+                position: sticky;
+                top: 0;
+                z-index: 10;
             }
             
             .action-buttons {
                 flex-direction: column;
-                gap: 3px;
+                gap: 8px;
+                margin: 15px 0;
             }
             
             .btn-sm {
-                padding: 5px 8px;
+                padding: 10px 15px;
                 font-size: 11px;
+                border-radius: 4px;
+                text-align: center;
             }
             
             .modal-content {
                 width: 98%;
                 margin: 1% auto;
-                border-radius: 6px;
+                border-radius: 8px;
+                max-height: 98vh;
+                overflow-y: auto;
             }
             
             .modal-header {
-                padding: 10px 15px;
+                padding: 15px;
+                text-align: center;
             }
             
             .modal-header h3 {
                 font-size: 16px;
+                margin: 0;
             }
             
             .modal-body {
-                padding: 15px;
+                padding: 20px;
             }
             
             .modal-footer {
-                padding: 10px 15px;
+                padding: 15px;
                 flex-direction: column;
-                gap: 8px;
+                gap: 10px;
+                text-align: center;
             }
             
             .modal-footer .btn {
                 width: 100%;
+                margin: 5px 0;
             }
             
             .form-control {
-                padding: 8px;
+                padding: 15px;
                 font-size: 13px;
+                border-radius: 6px;
+                margin: 10px 0;
             }
             
             .btn {
-                padding: 8px 12px;
+                padding: 15px 20px;
                 font-size: 13px;
+                border-radius: 6px;
+                margin: 15px 0;
+                text-align: center;
             }
             
             .security-warning {
                 font-size: 12px;
-                padding: 8px;
+                padding: 12px;
+                margin: 20px 0;
+                border-radius: 6px;
             }
             
             .alert {
-                padding: 10px;
-                font-size: 13px;
+                padding: 12px;
+                font-size: 12px;
+                margin: 15px 0;
+                border-radius: 6px;
+            }
+            
+            /* Prevent content overflow */
+            * {
+                box-sizing: border-box;
+            }
+            
+            body {
+                overflow-x: hidden;
+                width: 100%;
+            }
+            
+            .container {
+                overflow-x: hidden;
+                width: 100%;
             }
         }
 
         @media (max-width: 320px) {
             .header h1 {
                 font-size: 16px;
+                line-height: 1.3;
             }
             
             .stat-number {
@@ -1161,6 +1311,12 @@ function logAdminAction($action, $details) {
             
             .users-table {
                 font-size: 10px;
+            }
+            
+            .users-table th,
+            .users-table td {
+                padding: 6px;
+                min-width: 60px;
             }
             
             .modal-content {
@@ -1169,6 +1325,16 @@ function logAdminAction($action, $details) {
                 border-radius: 0;
                 height: 100vh;
                 max-height: 100vh;
+            }
+            
+            .btn {
+                padding: 12px 15px;
+                font-size: 12px;
+            }
+            
+            .form-control {
+                padding: 12px;
+                font-size: 12px;
             }
         }
     </style>

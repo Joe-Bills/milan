@@ -166,11 +166,12 @@ try {
             color: #000;
         }
 
-        /* Responsive Design */
+        /* Enhanced Responsive Design */
         @media (max-width: 1200px) {
             .container {
                 max-width: 100%;
                 padding: 15px;
+                overflow-x: hidden;
             }
             
             .search-box {
@@ -188,10 +189,30 @@ try {
                 gap: 15px;
                 text-align: center;
                 padding: 20px 15px;
+                position: relative;
+                z-index: 10;
             }
             
             .header h1 {
                 font-size: 24px;
+                margin-bottom: 10px;
+                line-height: 1.2;
+            }
+            
+            .header div {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+                align-items: center;
+            }
+            
+            .header a {
+                width: 100%;
+                text-align: center;
+                padding: 12px;
+                margin: 5px 0;
+                box-sizing: border-box;
+                display: block;
             }
             
             .search-box {
@@ -201,51 +222,85 @@ try {
             
             .search-box input {
                 font-size: 14px;
-                padding: 10px;
+                padding: 12px;
+                width: 100%;
+                box-sizing: border-box;
+                margin-bottom: 10px;
             }
             
             .search-box button {
-                padding: 10px 15px;
+                padding: 12px 15px;
                 font-size: 14px;
+                width: 100%;
+                margin: 5px 0;
             }
             
             .btn-group {
                 flex-direction: column;
                 gap: 10px;
                 width: 100%;
+                margin: 15px 0;
             }
             
             .btn-group .btn {
                 width: 100%;
                 text-align: center;
+                padding: 12px;
+                margin: 5px 0;
+                box-sizing: border-box;
             }
             
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
+                margin: 20px 0;
+            }
+            
+            .stats-card {
+                padding: 20px;
+                text-align: center;
+                margin-bottom: 15px;
             }
             
             .boxes-table {
                 font-size: 14px;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                margin: 20px 0;
             }
             
             .boxes-table th,
             .boxes-table td {
                 padding: 8px;
+                min-width: 120px;
+                border: 1px solid #dee2e6;
+            }
+            
+            .boxes-table th {
+                background: #f8f9fa;
+                font-weight: bold;
+                position: sticky;
+                top: 0;
+                z-index: 5;
             }
         }
 
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
+                overflow-x: hidden;
             }
             
             .header {
                 padding: 15px 10px;
+                position: relative;
             }
             
             .header h1 {
                 font-size: 20px;
+                line-height: 1.2;
             }
             
             .search-box {
@@ -254,95 +309,143 @@ try {
             
             .search-box input {
                 font-size: 13px;
-                padding: 8px;
+                padding: 10px;
+                margin-bottom: 8px;
             }
             
             .search-box button {
-                padding: 8px 12px;
+                padding: 10px 12px;
                 font-size: 13px;
+                margin: 3px 0;
             }
             
             .stats-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
+                margin: 20px 0;
             }
             
             .stats-card {
                 padding: 15px;
                 text-align: center;
+                margin-bottom: 12px;
             }
             
             .stats-number {
                 font-size: 24px;
+                display: block;
+                margin-bottom: 8px;
             }
             
             .stats-label {
                 font-size: 12px;
+                display: block;
             }
             
             .boxes-table {
                 font-size: 12px;
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
+                margin: 20px 0;
+                border-radius: 8px;
+                overflow: hidden;
             }
             
             .boxes-table th,
             .boxes-table td {
                 padding: 6px;
-                min-width: 80px;
+                min-width: 100px;
+                text-align: left;
+                border-bottom: 1px solid #dee2e6;
             }
             
             .badge {
                 font-size: 10px;
-                padding: 2px 6px;
+                padding: 4px 8px;
+                border-radius: 12px;
             }
             
             .btn-sm {
-                padding: 5px 8px;
+                padding: 8px 12px;
                 font-size: 11px;
+                border-radius: 4px;
             }
             
             .table-responsive {
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
+                margin: 20px 0;
+            }
+            
+            .card {
+                margin-bottom: 15px;
+                border-radius: 8px;
+            }
+            
+            .card-body {
+                padding: 15px;
+            }
+            
+            .box-card {
+                margin-bottom: 15px;
+                border-radius: 8px;
+            }
+            
+            .duplicate-warning {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 10px;
+                display: block;
+                width: 100%;
+                text-align: center;
             }
         }
 
         @media (max-width: 480px) {
             .container {
                 padding: 5px;
+                overflow-x: hidden;
             }
             
             .header {
-                padding: 10px 5px;
+                padding: 15px 5px;
+                position: relative;
             }
             
             .header h1 {
                 font-size: 18px;
+                line-height: 1.3;
+                margin-bottom: 15px;
             }
             
             .search-box {
                 flex-direction: column;
-                gap: 8px;
+                gap: 10px;
+                margin-bottom: 15px;
             }
             
             .search-box input {
                 width: 100%;
-                margin-bottom: 8px;
+                margin-bottom: 10px;
+                padding: 12px;
+                font-size: 13px;
+                box-sizing: border-box;
             }
             
             .search-box button {
                 width: 100%;
-                padding: 10px;
+                padding: 12px;
+                font-size: 13px;
+                margin: 5px 0;
             }
             
             .stats-card {
                 padding: 12px;
+                margin-bottom: 12px;
             }
             
             .stats-number {
                 font-size: 20px;
+                margin-bottom: 6px;
             }
             
             .stats-label {
@@ -351,33 +454,81 @@ try {
             
             .boxes-table {
                 font-size: 11px;
+                margin: 15px 0;
             }
             
             .boxes-table th,
             .boxes-table td {
-                padding: 4px;
-                min-width: 60px;
+                padding: 8px;
+                min-width: 80px;
+                text-align: left;
             }
             
             .badge {
                 font-size: 9px;
-                padding: 1px 4px;
+                padding: 3px 6px;
+                border-radius: 10px;
             }
             
             .btn-sm {
-                padding: 4px 6px;
+                padding: 6px 10px;
                 font-size: 10px;
+                border-radius: 4px;
             }
             
             .table-responsive {
                 margin: 0 -5px;
                 padding: 0 5px;
+                border-radius: 8px;
+            }
+            
+            .card {
+                margin-bottom: 12px;
+            }
+            
+            .card-body {
+                padding: 12px;
+            }
+            
+            .box-card {
+                margin-bottom: 12px;
+            }
+            
+            .delete-btn {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+            
+            .duplicate-box {
+                border-left: 4px solid #ffc107;
+                border-right: none;
+                border-top: none;
+                border-bottom: none;
+            }
+            
+            /* Prevent content overflow */
+            * {
+                box-sizing: border-box;
+            }
+            
+            body {
+                overflow-x: hidden;
+                width: 100%;
+            }
+            
+            .container {
+                overflow-x: hidden;
+                width: 100%;
             }
         }
 
         @media (max-width: 320px) {
             .header h1 {
                 font-size: 16px;
+                line-height: 1.3;
             }
             
             .stats-number {
@@ -394,8 +545,22 @@ try {
             
             .boxes-table th,
             .boxes-table td {
-                padding: 3px;
-                min-width: 50px;
+                padding: 6px;
+                min-width: 60px;
+            }
+            
+            .badge {
+                font-size: 8px;
+                padding: 2px 4px;
+            }
+            
+            .btn-sm {
+                padding: 5px 8px;
+                font-size: 9px;
+            }
+            
+            .card-body {
+                padding: 10px;
             }
         }
     </style>

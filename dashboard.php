@@ -1050,11 +1050,12 @@ $totalSplittersCount = count($splitterByCore);
             }
         }
 
-        /* Responsive Design */
+        /* Enhanced Responsive Design */
         @media (max-width: 1200px) {
             .container {
                 max-width: 100%;
                 padding: 15px;
+                overflow-x: hidden;
             }
             
             .form-container {
@@ -1074,22 +1075,46 @@ $totalSplittersCount = count($splitterByCore);
                 gap: 15px;
                 text-align: center;
                 padding: 20px 15px;
+                position: relative;
+                z-index: 10;
             }
             
             .header div {
                 flex-direction: column;
                 gap: 10px;
                 width: 100%;
+                align-items: center;
             }
             
             .header a {
                 width: 100%;
                 text-align: center;
                 padding: 12px;
+                margin: 5px 0;
+                box-sizing: border-box;
+                display: block;
+            }
+            
+            .container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .sidebar {
+                width: 100%;
+                order: 2;
+                margin-bottom: 20px;
+            }
+            
+            .main-content {
+                width: 100%;
+                order: 1;
             }
             
             .form-container {
                 padding: 15px;
+                margin: 0;
             }
             
             .form-row {
@@ -1104,14 +1129,17 @@ $totalSplittersCount = count($splitterByCore);
             
             .box-card {
                 padding: 15px;
+                margin-bottom: 10px;
             }
             
             .box-title {
                 font-size: 16px;
+                margin-bottom: 10px;
             }
             
             .box-info {
                 font-size: 12px;
+                line-height: 1.4;
             }
             
             .cores-list {
@@ -1122,57 +1150,139 @@ $totalSplittersCount = count($splitterByCore);
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
+                flex-direction: column;
+                overflow-x: hidden;
             }
             
             .header {
                 padding: 15px 10px;
+                position: relative;
             }
             
             .header h1 {
                 font-size: 20px;
+                margin-bottom: 10px;
+                line-height: 1.2;
+            }
+            
+            .header span {
+                display: block;
+                margin-bottom: 10px;
+                font-size: 14px;
+            }
+            
+            .sidebar {
+                width: 100%;
+                margin-bottom: 20px;
             }
             
             .form-container {
                 padding: 12px;
+                margin: 0;
             }
             
             .form-title {
                 font-size: 18px;
+                margin-bottom: 15px;
+                text-align: center;
             }
             
             .form-group {
                 margin-bottom: 15px;
+                width: 100%;
+                box-sizing: border-box;
             }
             
             .form-group label {
                 font-size: 14px;
+                display: block;
+                margin-bottom: 8px;
             }
             
             .form-control {
-                padding: 10px;
+                padding: 12px;
                 font-size: 14px;
+                width: 100%;
+                box-sizing: border-box;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                margin: 5px 0;
             }
             
             .btn {
-                padding: 10px 15px;
+                padding: 12px 20px;
                 font-size: 14px;
+                width: 100%;
+                box-sizing: border-box;
+                margin: 10px 0;
+                display: block;
+                clear: both;
+            }
+            
+            .gps-btn {
+                padding: 12px 15px;
+                font-size: 13px;
+                margin-top: 10px;
+            }
+            
+            .address-input-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .address-input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .main-content {
+                width: 100%;
+                padding: 0;
+            }
+            
+            .stats-box {
+                flex-direction: column;
+                gap: 10px;
+                margin: 20px 0;
+            }
+            
+            .stat-item {
+                padding: 15px;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            .stat-number {
+                font-size: 24px;
+                display: block;
+                margin-bottom: 5px;
+            }
+            
+            .stat-label {
+                font-size: 12px;
+                display: block;
             }
             
             .boxes-grid {
                 grid-template-columns: 1fr;
                 gap: 10px;
+                margin: 20px 0;
             }
             
             .box-card {
-                padding: 12px;
+                padding: 15px;
+                margin-bottom: 15px;
+                border-radius: 8px;
             }
             
             .box-title {
                 font-size: 15px;
+                margin-bottom: 8px;
             }
             
             .box-info {
                 font-size: 11px;
+                line-height: 1.3;
             }
             
             .cores-list {
@@ -1181,51 +1291,112 @@ $totalSplittersCount = count($splitterByCore);
             
             .section-title {
                 font-size: 18px;
+                margin: 30px 0 20px 0;
+                text-align: center;
             }
             
             .search-box {
                 max-width: 100%;
+                margin: 20px 0;
             }
             
-            .search-box input {
+            .search-input {
+                width: 100%;
+                padding: 12px;
                 font-size: 14px;
-                padding: 10px;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+            }
+            
+            .search-btn {
+                width: 100%;
+                padding: 12px;
+                font-size: 14px;
+                margin: 5px 0;
             }
             
             .filter-buttons {
                 flex-direction: column;
                 gap: 8px;
+                width: 100%;
+                margin: 15px 0;
             }
             
             .filter-btn {
                 width: 100%;
+                padding: 12px;
+                font-size: 14px;
                 text-align: center;
+                margin: 5px 0;
+            }
+            
+            .map-position-container {
+                flex-direction: column;
+                gap: 15px;
+                margin: 20px 0;
+            }
+            
+            .map-section, .boxes-list-section {
+                flex: none;
+                width: 100%;
+            }
+            
+            .map-section {
+                height: 300px;
+                margin-bottom: 20px;
+            }
+            
+            .boxes-list-section {
+                max-height: 250px;
+                overflow-y: auto;
+            }
+            
+            .box-actions {
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 10px;
+            }
+            
+            .box-actions .btn {
+                width: 100%;
+                text-align: center;
+                margin: 5px 0;
             }
         }
 
         @media (max-width: 480px) {
             .container {
                 padding: 5px;
+                flex-direction: column;
+                overflow-x: hidden;
             }
             
             .header {
-                padding: 10px 5px;
+                padding: 15px 5px;
+                position: relative;
             }
             
             .header h1 {
                 font-size: 18px;
+                line-height: 1.2;
+                margin-bottom: 15px;
             }
             
             .header span {
-                font-size: 14px;
+                font-size: 13px;
+                margin-bottom: 15px;
+                display: block;
             }
             
             .form-container {
                 padding: 10px;
+                margin: 0;
             }
             
             .form-title {
                 font-size: 16px;
+                margin-bottom: 12px;
+                text-align: center;
             }
             
             .form-group {
@@ -1234,28 +1405,56 @@ $totalSplittersCount = count($splitterByCore);
             
             .form-group label {
                 font-size: 13px;
+                margin-bottom: 6px;
             }
             
             .form-control {
-                padding: 8px;
+                padding: 10px;
                 font-size: 13px;
+                border-radius: 6px;
+                margin: 3px 0;
             }
             
             .btn {
-                padding: 8px 12px;
+                padding: 10px 15px;
                 font-size: 13px;
+                border-radius: 6px;
+                margin: 8px 0;
+            }
+            
+            .gps-btn {
+                padding: 10px 12px;
+                font-size: 12px;
+                margin-top: 8px;
+            }
+            
+            .stat-item {
+                padding: 12px;
+                margin-bottom: 8px;
+            }
+            
+            .stat-number {
+                font-size: 20px;
+                margin-bottom: 4px;
+            }
+            
+            .stat-label {
+                font-size: 11px;
             }
             
             .box-card {
-                padding: 10px;
+                padding: 12px;
+                margin-bottom: 12px;
             }
             
             .box-title {
                 font-size: 14px;
+                margin-bottom: 6px;
             }
             
             .box-info {
                 font-size: 10px;
+                line-height: 1.2;
             }
             
             .cores-list {
@@ -1264,37 +1463,71 @@ $totalSplittersCount = count($splitterByCore);
             
             .section-title {
                 font-size: 16px;
+                margin: 25px 0 15px 0;
             }
             
-            .search-box input {
+            .search-input {
+                padding: 10px;
                 font-size: 13px;
-                padding: 8px;
+            }
+            
+            .search-btn {
+                padding: 10px;
+                font-size: 13px;
             }
             
             .filter-btn {
-                padding: 8px 12px;
+                padding: 10px 12px;
                 font-size: 12px;
+            }
+            
+            .map-section {
+                height: 250px;
+            }
+            
+            .boxes-list-section {
+                max-height: 200px;
             }
             
             .alert {
                 padding: 10px;
                 font-size: 13px;
+                margin: 15px 0;
+                border-radius: 6px;
+                line-height: 1.3;
             }
             
-            .box-actions {
-                flex-direction: column;
-                gap: 5px;
+            .show-more-btn {
+                padding: 12px 20px;
+                font-size: 13px;
+                margin: 10px 0;
             }
             
-            .box-actions .btn {
+            .items-count {
+                font-size: 11px;
+                margin-top: 6px;
+            }
+            
+            /* Prevent content overflow */
+            * {
+                box-sizing: border-box;
+            }
+            
+            body {
+                overflow-x: hidden;
                 width: 100%;
-                text-align: center;
+            }
+            
+            .container {
+                overflow-x: hidden;
+                width: 100%;
             }
         }
 
         @media (max-width: 320px) {
             .header h1 {
                 font-size: 16px;
+                line-height: 1.3;
             }
             
             .form-title {
@@ -1310,13 +1543,34 @@ $totalSplittersCount = count($splitterByCore);
             }
             
             .form-control {
-                padding: 6px;
+                padding: 8px;
                 font-size: 12px;
             }
             
             .btn {
-                padding: 6px 10px;
+                padding: 8px 12px;
                 font-size: 12px;
+            }
+            
+            .gps-btn {
+                padding: 8px 10px;
+                font-size: 11px;
+            }
+            
+            .stat-number {
+                font-size: 18px;
+            }
+            
+            .stat-label {
+                font-size: 10px;
+            }
+            
+            .map-section {
+                height: 200px;
+            }
+            
+            .boxes-list-section {
+                max-height: 150px;
             }
         }
     </style>

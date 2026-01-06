@@ -1101,11 +1101,12 @@ $activities = $recent_activity->fetchAll();
             background: rgba(255,255,255,0.4);
         }
 
-        /* Responsive Design */
+        /* Enhanced Responsive Design */
         @media (max-width: 1200px) {
             .container {
                 max-width: 100%;
                 padding: 15px;
+                overflow-x: hidden;
             }
             
             .main-content {
@@ -1129,25 +1130,34 @@ $activities = $recent_activity->fetchAll();
                 gap: 15px;
                 text-align: center;
                 padding: 20px 15px;
+                position: relative;
+                z-index: 10;
             }
             
             .header h1 {
                 font-size: 20px;
+                margin-bottom: 10px;
+                line-height: 1.2;
             }
             
             .header a {
                 width: 100%;
                 text-align: center;
                 padding: 12px;
+                margin: 5px 0;
+                box-sizing: border-box;
+                display: block;
             }
             
             .box-info {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
+                margin: 20px 0;
             }
             
             .info-card {
                 padding: 15px;
+                margin-bottom: 10px;
             }
             
             .cores-grid {
@@ -1157,62 +1167,95 @@ $activities = $recent_activity->fetchAll();
             
             .core-card {
                 padding: 15px;
+                margin-bottom: 10px;
+                position: relative;
             }
             
             .core-number {
                 font-size: 18px;
+                margin-bottom: 5px;
             }
             
             .core-status {
                 font-size: 12px;
+            }
+            
+            .edit-btn {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 10px;
+                width: 100%;
+                padding: 8px 12px;
             }
         }
 
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
+                overflow-x: hidden;
             }
             
             .header {
                 padding: 15px 10px;
+                position: relative;
             }
             
             .header h1 {
                 font-size: 18px;
+                line-height: 1.2;
+                margin-bottom: 15px;
+            }
+            
+            .header span {
+                display: block;
+                margin-bottom: 10px;
+                font-size: 14px;
             }
             
             .box-info {
                 grid-template-columns: 1fr;
                 gap: 12px;
+                margin: 20px 0;
             }
             
             .info-card {
                 padding: 12px;
+                margin-bottom: 12px;
             }
             
             .info-label {
                 font-size: 12px;
+                display: block;
+                margin-bottom: 6px;
             }
             
             .info-value {
                 font-size: 14px;
+                line-height: 1.3;
             }
             
             .section-title {
                 font-size: 18px;
+                margin: 30px 0 20px 0;
+                text-align: center;
             }
             
             .cores-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
+                margin: 20px 0;
             }
             
             .core-card {
                 padding: 12px;
+                margin-bottom: 15px;
+                position: relative;
             }
             
             .core-number {
                 font-size: 16px;
+                margin-bottom: 8px;
             }
             
             .core-status {
@@ -1221,83 +1264,154 @@ $activities = $recent_activity->fetchAll();
             
             .connection-form {
                 padding: 15px;
+                margin: 20px 0;
             }
             
             .form-group {
                 margin-bottom: 15px;
+                width: 100%;
+                box-sizing: border-box;
             }
             
             .form-group label {
                 font-size: 14px;
+                display: block;
+                margin-bottom: 8px;
             }
             
             .form-control {
-                padding: 10px;
+                padding: 12px;
                 font-size: 14px;
+                width: 100%;
+                box-sizing: border-box;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                margin: 5px 0;
             }
             
             .btn {
-                padding: 10px 15px;
+                padding: 12px 20px;
                 font-size: 14px;
+                width: 100%;
+                box-sizing: border-box;
+                margin: 10px 0;
+                display: block;
+                clear: both;
             }
             
             .map-section {
                 height: 300px;
+                margin: 20px 0;
             }
             
             .image-viewer {
                 height: 250px;
+                margin: 20px 0;
             }
             
             .connection-history {
                 font-size: 12px;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                margin: 20px 0;
+                border-radius: 8px;
             }
             
             .connection-history th,
             .connection-history td {
-                padding: 6px;
+                padding: 8px;
+                min-width: 120px;
+                border: 1px solid #dee2e6;
+            }
+            
+            .connection-history th {
+                background: #f8f9fa;
+                font-weight: bold;
+                position: sticky;
+                top: 0;
+                z-index: 5;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 10px;
+                margin: 15px 0;
+                width: 100%;
+            }
+            
+            .action-buttons .btn {
+                width: 100%;
+                margin: 5px 0;
             }
         }
 
         @media (max-width: 480px) {
             .container {
                 padding: 5px;
+                overflow-x: hidden;
             }
             
             .header {
-                padding: 10px 5px;
+                padding: 15px 5px;
+                position: relative;
             }
             
             .header h1 {
                 font-size: 16px;
+                line-height: 1.3;
+                margin-bottom: 15px;
             }
             
             .header span {
                 font-size: 12px;
+                margin-bottom: 15px;
+                display: block;
+            }
+            
+            .box-info {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin: 15px 0;
             }
             
             .info-card {
                 padding: 10px;
+                margin-bottom: 10px;
             }
             
             .info-label {
                 font-size: 11px;
+                margin-bottom: 5px;
             }
             
             .info-value {
                 font-size: 13px;
+                line-height: 1.2;
             }
             
             .section-title {
                 font-size: 16px;
+                margin: 25px 0 15px 0;
+                text-align: center;
+            }
+            
+            .cores-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin: 15px 0;
             }
             
             .core-card {
                 padding: 10px;
+                margin-bottom: 12px;
+                position: relative;
             }
             
             .core-number {
                 font-size: 14px;
+                margin-bottom: 6px;
             }
             
             .core-status {
@@ -1306,6 +1420,7 @@ $activities = $recent_activity->fetchAll();
             
             .connection-form {
                 padding: 10px;
+                margin: 15px 0;
             }
             
             .form-group {
@@ -1314,57 +1429,126 @@ $activities = $recent_activity->fetchAll();
             
             .form-group label {
                 font-size: 13px;
+                margin-bottom: 6px;
             }
             
             .form-control {
-                padding: 8px;
+                padding: 10px;
                 font-size: 13px;
+                border-radius: 6px;
+                margin: 3px 0;
             }
             
             .btn {
-                padding: 8px 12px;
+                padding: 10px 15px;
                 font-size: 13px;
+                border-radius: 6px;
+                margin: 8px 0;
             }
             
             .map-section {
                 height: 250px;
+                margin: 15px 0;
             }
             
             .image-viewer {
                 height: 200px;
+                margin: 15px 0;
             }
             
             .connection-history {
                 font-size: 11px;
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
+                margin: 15px 0;
+                border-radius: 8px;
             }
             
             .connection-history th,
             .connection-history td {
-                padding: 4px;
+                padding: 6px;
                 min-width: 80px;
+                text-align: left;
             }
             
             .status-badge {
                 font-size: 9px;
-                padding: 2px 6px;
+                padding: 3px 6px;
+                border-radius: 10px;
             }
             
             .alert {
                 padding: 10px;
                 font-size: 13px;
+                margin: 15px 0;
+                border-radius: 6px;
+                line-height: 1.3;
+            }
+            
+            .customer-details-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin: 10px 0;
+            }
+            
+            .customer-details-image img {
+                max-width: 100%;
+                max-height: 300px;
+                margin-bottom: 10px;
+            }
+            
+            .customer-details-info {
+                padding: 15px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                gap: 5px;
+                margin-bottom: 8px;
+            }
+            
+            .info-label {
+                width: 100%;
+                margin-bottom: 3px;
+            }
+            
+            .info-value {
+                width: 100%;
+            }
+            
+            .splitter-core-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                padding: 8px;
+            }
+            
+            .splitter-cores-container {
+                max-height: 300px;
+            }
+            
+            /* Prevent content overflow */
+            * {
+                box-sizing: border-box;
+            }
+            
+            body {
+                overflow-x: hidden;
+                width: 100%;
+            }
+            
+            .container {
+                overflow-x: hidden;
+                width: 100%;
             }
         }
 
         @media (max-width: 320px) {
             .header h1 {
                 font-size: 14px;
+                line-height: 1.3;
             }
             
             .section-title {
                 font-size: 15px;
+                margin: 20px 0 10px 0;
             }
             
             .core-number {
@@ -1376,13 +1560,15 @@ $activities = $recent_activity->fetchAll();
             }
             
             .form-control {
-                padding: 6px;
+                padding: 8px;
                 font-size: 12px;
+                margin: 2px 0;
             }
             
             .btn {
-                padding: 6px 10px;
+                padding: 8px 12px;
                 font-size: 12px;
+                margin: 6px 0;
             }
             
             .map-section {
@@ -1391,6 +1577,30 @@ $activities = $recent_activity->fetchAll();
             
             .image-viewer {
                 height: 150px;
+            }
+            
+            .connection-history th,
+            .connection-history td {
+                padding: 4px;
+                min-width: 60px;
+            }
+            
+            .status-badge {
+                font-size: 8px;
+                padding: 2px 4px;
+            }
+            
+            .alert {
+                padding: 8px;
+                font-size: 12px;
+            }
+            
+            .customer-details-image img {
+                max-height: 250px;
+            }
+            
+            .splitter-cores-container {
+                max-height: 250px;
             }
         }
     </style>
